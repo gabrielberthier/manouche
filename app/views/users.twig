@@ -1,0 +1,31 @@
+{% extends 'partials/simple_layout.twig' %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-md-4">
+        <h1>All Users</h1>
+        <ul>
+        {% for user in users %}
+            <li>{{ user.name }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-8">
+        <h1>Submit Your Name</h1>
+        <div class="d-flex justify-content">
+            <form method="POST" action="/users" class="md-form">
+                <div class="input-group">
+                    <label for="form1name" style="font-size: 16px !important">Novo nome para a lista</label>
+                    <input name="name" type="text" id="form1name" class="form-control">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary btn-md ml-3">Submit</button>
+                        <a class="btn btn-primary btn-md" href="/users/pickone">Pick one</a>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
