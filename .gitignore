@@ -1,0 +1,8 @@
+# Created by https://www.gitignore.io/api/phpcodesniffer,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=phpcodesniffer,visualstudiocode
+
+### PHPCodeSniffer ###
+# CodeSniffer
+
+/vendor/*
+/config/*
