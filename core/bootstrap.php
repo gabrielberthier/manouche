@@ -3,12 +3,9 @@ declare (strict_types = 1);
 
 use DI\ContainerBuilder;
 use App\Core\HTTP\RouterFactory\RouterFactory;
-use App\Core\Database\QueryBuilder;
-use App\Core\Database\Connection;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Http\Exception\MethodNotAllowedException;
 use League\Route\Http\Exception\NotFoundException;
-use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\EntityManager;
 use Manouche\Models\UserModel;
 

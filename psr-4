@@ -1,4 +1,0 @@
-"psr-4": {
-            "Manouche\\": "app/",
-            "App\\Core\\": "core/"
-        },
