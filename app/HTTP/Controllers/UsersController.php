@@ -5,6 +5,8 @@ namespace Manouche\HTTP\Controllers;
 use Manouche\Models\UserModel;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Core\HTTP\ControllersDependencies\BaseController;
+use Zend\Diactoros\Response\RedirectResponse;
+use Zend\Diactoros\Response;
 
 class UsersController extends BaseController
 {
@@ -28,13 +30,17 @@ class UsersController extends BaseController
     /**
      * Store a new user in the database.
      */
-    public function store()
+    public function store(ServerRequestInterface $request, $args)
     {
-        $this->user->save([
-            'name' => $_POST['name']
-        ]);
-
-        return redirect('users');
+        // $this->user->save([
+        //     'name' => $_POST['name']
+        // ]);
+        //$name = $args['name'];
+        $arg = $request->getParsedBody();
+        $this->user->setName($arg['name']);
+        $this->user->save([]);
+        $name = $arg['name'];
+        return new RedirectResponse("/users/hello/{$name}", 301);
     }
 
     public function pickOne()
@@ -51,8 +57,9 @@ class UsersController extends BaseController
 
     }
 
-    public function atest(){
-        $us = $this->user;
-        return view('atest-di', compact('us'));
+    public function hello(ServerRequestInterface $request, $args){
+        $name = $args['name'];
+        $this->getResponse()->getBody()->write("<h3>Hello, $name</h3>");
+        return $this->getResponse();
     }
 }

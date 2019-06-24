@@ -12,11 +12,17 @@ trait CustomRoutes
 
         Routes::get('/', "PagesController@home");
 
+        Routes::get('/search', "PagesController@search");
+
         Routes::get('about/{company}', "PagesController@about");
 
         Routes::group('/users',function (RouteGroup $rou) {
                 $rou->get('/', 'UsersController@index');
+                $rou->get('/hello/{name}', 'UsersController@hello');
+                $rou->post('/save', 'UsersController@store');
             }
         );
+
+        Routes::get('login', "LoginController@page");
     }
 }

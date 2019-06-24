@@ -1,16 +1,17 @@
 <?php
 
 namespace Manouche\Models;
-use App\Core\Database\QueryBuilder;
+
+use Doctrine\ORM\EntityManager;
 
 abstract class AbstractModel
 {
     /**
      * @Inject
-     * @var QueryBuilder
+     * @var EntityManager
      */
     protected $database;
-    
+
     /**
      * This variable defines the table we want to query
      *
@@ -18,27 +19,37 @@ abstract class AbstractModel
      */
     protected $tableName;
 
+    /**
+     * This variable defines which fields can be filled
+     *
+     * @var array
+     */
+    protected $fillable = [];
 
     public function getAll()
     {
-        if(!empty(trim($this->tableName))){
-            return $this->database->selectAll($this->tableName);
-        }
-        throw new \Exception("Table name cannot be empty");
+        return $this->database->getRepository(static::class)->findAll();
     }
 
-    public function save(array $fields)
+    public function save()
     {
-        $table = trim($this->tableName);
-        if(empty($table)){
+        if (empty($this->tableName)) {
             throw new \Exception("Table name cannot be empty");
         }
-        elseif(empty($fields)){
-            throw new \Exception("No arguments passed to be saved in database");
-        }
-        else{
-            $this->database->insert($table, $fields);
-        }
+        $this->database->persist($this);
+        $this->database->flush();
     }
 
+    public function fillInstance(array $fields)
+    {
+        foreach ($this->fillable as $key => $value) {
+            echo "$key and $value <br>";
+            if (key_exists($value, $fields)) {
+                $this->{$value} = $fields[$value];
+            } else {
+                echo "cool";
+            }
+        }
+        dd($this);
+    }
 }

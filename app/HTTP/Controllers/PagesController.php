@@ -24,6 +24,13 @@ class PagesController extends BaseController
         return $this->render('test', $args);
     }
 
+    public function search(ServerRequestInterface $request, $args)
+    {   
+        $search = $request->getQueryParams();
+        return $this->render('search', compact('search'));
+    }
+
+
     /**
      * Show the contact page.
      */

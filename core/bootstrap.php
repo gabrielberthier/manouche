@@ -18,11 +18,6 @@ $containerBuilder->addDefinitions('config/di-config.php');
 $containerBuilder->useAnnotations(true);
 $container = $containerBuilder->build();
 
-$entity = $container->get(EntityManager::class);
-
-$user = $entity->find(UserModel::class, 1);
-dd($user);
-
 //deprecated
 // $container->set(QueryBuilder::class, new QueryBuilder(
 //     Connection::make($container->get('config')['database'])
@@ -43,7 +38,7 @@ try {
 } catch (NotFoundException $ex) {
     echo $ex->getMessage();
     require 'public/error404.html';
-    throw new RuntimeException("Oopsie!");
+    throw new RuntimeException($ex->getMessage());
 } catch (MethodNotAllowedException $ex) {
     echo $ex->getMessage();
 }

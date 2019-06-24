@@ -28,4 +28,8 @@ class BaseController
         );
         return $this->response;
     }
+
+    public function getResponse(){
+        return $this->response;
+    }
 }
