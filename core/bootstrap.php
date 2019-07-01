@@ -27,7 +27,6 @@ $container = $containerBuilder->build();
 // App::bind('database', new QueryBuilder(
 //     Connection::make(App::get('config')['database'])
 // ));
-
 $router = RouterFactory::make($container);
 
 try {

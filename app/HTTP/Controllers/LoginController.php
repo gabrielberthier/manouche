@@ -4,6 +4,7 @@ namespace Manouche\HTTP\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface;
 use App\Core\HTTP\ControllersDependencies\BaseController;
+use App\Core\Utilities\Session;
 
 class LoginController extends BaseController
 {
@@ -24,18 +25,12 @@ class LoginController extends BaseController
         return $this->render('test', $args);
     }
 
-    public function search(ServerRequestInterface $request, $args)
+
+    public function store(ServerRequestInterface $request, $args)
     {   
-        $search = $request->getQueryParams();
+        Session::w('pao', 'batata');
+        Session::dump();
+        dd($request->getParsedBody());
         return $this->render('search', compact('search'));
-    }
-
-
-    /**
-     * Show the contact page.
-     */
-    public function contact()
-    {
-        return view('contact');
     }
 }

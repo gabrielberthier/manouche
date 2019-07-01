@@ -5,4 +5,4 @@
 # CodeSniffer
 
 /vendor/*
-/config/*
+/config/config.php

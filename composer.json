@@ -17,7 +17,10 @@
         "twig/twig": "^2.11",
         "larapack/dd": "1.*",
         "doctrine/annotations": "^1.6",
-        "doctrine/orm": "^2"
+        "doctrine/orm": "^2",
+        "hansott/psr7-cookies": "^3.0",
+        "firebase/php-jwt": "^5.0",
+        "rakit/validation": "^1.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.3"

@@ -32,4 +32,8 @@ class BaseController
     public function getResponse(){
         return $this->response;
     }
+
+    public function setResponse(ResponseInterface $response){
+        $this->response = $response;
+    }
 }

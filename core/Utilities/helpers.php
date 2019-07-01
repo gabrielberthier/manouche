@@ -1,5 +1,7 @@
 <?php
 
+define("CONFIG", require './config/config.php');
+
 /**
  * Redirect to a new page.
  *
@@ -24,4 +26,8 @@ if (!function_exists('d')) {
         $args = func_get_args();
         call_user_func_array('dump', $args);
     }
+}
+
+function env(string $key){
+    return CONFIG[$key];
 }

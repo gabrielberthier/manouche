@@ -7,7 +7,6 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
 return [
-    'config' => require 'config/config.php',
     'request' => Zend\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES),
     'response' => new Response(),
     Environment::class => function () {
@@ -22,9 +21,9 @@ return [
         $isDevMode = false;
 
         // Dados da conexão
-        $dbParams = require './config/config.php';
+        $dbParams = env("database");
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
-        return EntityManager::create($dbParams['database'], $config);
+        return EntityManager::create($dbParams, $config);
     }
 ];
