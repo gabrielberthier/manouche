@@ -8,10 +8,13 @@ use Rakit\Validation\ErrorBag;
 class ManoucheValidator
 {
     /**
-     * @Inject
      * @var Validator
      */
     private $validator;
+
+    public function __construct() {
+        $this->validator = new Validator();
+    }
 
     /**
      * Errors response
@@ -22,6 +25,7 @@ class ManoucheValidator
 
     public function validate(array $input, ValidateInterface $customValidation)
     {
+
         // make it
         $validation = $this->validator->make($input, $customValidation->rules());
 
@@ -38,6 +42,14 @@ class ManoucheValidator
             $this->errors = $validation->errors();
         }
 
-        return $res;
+        return !$res;
+    }
+    /**
+     * Get all errors
+     *
+     * @return ErrorBag
+     */
+    public function getErrors(){
+        return $this->errors;
     }
 }

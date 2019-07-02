@@ -4,7 +4,7 @@ namespace Manouche\HTTP\Validate;
 
 use App\Core\HTTP\Validate\ValidateInterface;
 
-class LoginValidation implements ValidateInterface
+class SigninValidation implements ValidateInterface
 {
 
     /**
@@ -15,10 +15,9 @@ class LoginValidation implements ValidateInterface
     public function rules(): array
     {
         return [
-            'name'                  => 'required|min:6',
+            'username'              => 'required|min:4',
             'email'                 => 'required|email',
             'password'              => 'required|min:6',
-            'confirm_password'      => 'required|same:password',
         ];
     }
     /**

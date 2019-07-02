@@ -33,11 +33,15 @@ abstract class AbstractModel
 
     public function save()
     {
-        if (empty($this->tableName)) {
-            throw new \Exception("Table name cannot be empty");
+        try{
+            $this->database->persist($this);
+            $this->database->flush();
         }
-        $this->database->persist($this);
-        $this->database->flush();
+        catch(\Exception $ex){
+            echo $ex->getMessage(); die;
+            $this->database->rollback();
+            die("Erro");
+        }
     }
 
     public function fillInstance(array $fields)

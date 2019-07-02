@@ -1,53 +1,179 @@
 <?php
 
 namespace Manouche\Models;
+
 /**
  * @Entity @Table(name="users")
  **/
-class UserModel extends AbstractModel{
-    protected $tableName = "users";
-    /** @Id @Column(type="integer") @GeneratedValue **/
-    private $id;
-    /** @Column(type="string") **/
-    private $name;
+class UserModel extends AbstractModel
+{
+    /** @Id @Column(type="integer", name="idusers") @GeneratedValue **/
+    private $idusers;
+    /** @Column(type="string", name="username") **/
+    private $username;
+    /** @Column(type="string", name="email") **/
+    private $email;
+    /** @Column(type="string", name="password") **/
+    private $password;
+    /** @Column(type="datetime", name="createdAt") **/
+    private $createdAt;
+    /** @Column(type="datetime", name="updatedAt") **/
+    private $updatedAt;
+    /** @Column(type="string", name="roles") **/
+    private $roles;
 
 
     /**
-     * Get the value of id
-     */ 
-    public function getId()
+     * Get the value of email
+     */
+    public function getEmail()
     {
-        return $this->id;
+        return $this->email;
     }
 
     /**
-     * Set the value of id
-     *@param int $name
+     * Set the value of email
+     *
      * @return  self
-     */ 
-    public function setId(int $id)
+     */
+    public function setEmail($email)
     {
-        $this->id = $id;
+        $this->email = $email;
 
         return $this;
     }
 
     /**
-     * Get the value of name
-     */ 
-    public function getName()
+     * Get the value of password
+     */
+    public function getPassword()
     {
-        return $this->name;
+        return $this->password;
     }
 
     /**
-     * Set the value of name
-     * @param string $name
+     * Set the value of password
+     *
      * @return  self
-     */ 
-    public function setName(string $name)
+     */
+    public function setPassword($password)
     {
-        $this->name = $name;
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of createdAt
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the value of createdAt
+     *
+     * @return  self
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updatedAt
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set the value of updatedAt
+     *
+     * @return  self
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of roles
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Set the value of roles
+     *
+     * @return  self
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+    /**
+     * Returns true if user already exists
+     *
+     * @return bool
+     */
+    public function exists()
+    {
+        $user = $this->database->getRepository(static::class)->createQueryBuilder('u')
+            ->andWhere('u.email = :email OR u.username = :name')
+            ->setParameter('email', $this->email)
+            ->setParameter('name', $this->username)
+            ->getQuery()
+            ->getOneOrNullResult();
+        return ($user !== null);
+    }
+
+    /**
+     * Get the value of idusers
+     */
+    public function getIdusers()
+    {
+        return $this->idusers;
+    }
+
+    /**
+     * Set the value of idusers
+     *
+     * @return  self
+     */
+    public function setIdusers($idusers)
+    {
+        $this->idusers = $idusers;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of username
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set the value of username
+     *
+     * @return  self
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
 
         return $this;
     }

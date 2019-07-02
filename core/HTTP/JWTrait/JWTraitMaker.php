@@ -7,10 +7,11 @@ trait JWTraitMaker{
 
     private $jwt;
 
-    public function encode(){
+    public function encode(array $toEncode){
         $iat = time();
         $nbf = $iat + 5;
         $exp = $nbf + (3600*2);
+        
         $token_payload = [
             'iss' => 'manouche',
             'sub' => '1',
@@ -18,9 +19,9 @@ trait JWTraitMaker{
             "nbf" => $nbf,
             "exp" => $exp,
             "data" => [
-                "userId" => '$userId',
-                "userName" => '$userName',
-                "role" => '$userRole',
+                "userId" => $toEncode['id'],
+                "userName" => $toEncode['name'],
+                "role" => $toEncode['role'],
             ]
           ];
           // This is your client secret
@@ -32,4 +33,10 @@ trait JWTraitMaker{
           
     }
 
+    /**
+     * Makes data array
+     *
+     * @param array $array
+     * @return array
+     */
 }

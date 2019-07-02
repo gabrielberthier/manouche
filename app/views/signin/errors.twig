@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V16</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="/public/img/guitar.png"/>
+	<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/public/css/loginmain.css">
+    {# <link rel="stylesheet" type="text/css" href="public/fonts/font-awesome-4.7.0/css/font-awesome.min.css"> #}
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="/public/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<!--===============================================================================================-->
+</head>
+<body style="background-image: url('/public/img/login.png');">
+	
+    {{ include('partials/nav.twig') }}
+
+	<div class="limiter">
+    <div class="container">
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for key, error in errors %}
+                    <li>{{ key }}</li>
+                    <small>
+                        Detalhes: 
+                        {% for detail in error %}
+                            {{detail}}
+                        {% endfor %}
+                    </small>
+                {% endfor %}
+            </ul>
+        </div>
+        </div>
+	</div>
+    
+ 
+	
+	<script src="/public/js/jquery-3.4.0.min.js"></script>
+<!--===============================================================================================-->
+	<script src="/public/js/loginmain.js"></script>
+</body>
+</html>

@@ -24,11 +24,12 @@ trait CustomRoutes
                 $rou->post('/save', 'UsersController@store');
             }
         );
-
-        Routes::get('login', "LoginController@page");
-
         Routes::get('session', "PagesController@printSession");
-
-        Routes::post("login/new", "LoginController@store");
+        //Login stuff
+        Routes::get('login', "Auth\LoginController@page");
+        Routes::post("login/validate", "Auth\LoginController@store");
+        //SignIn stuff
+        Routes::get('signin', "Auth\SignInController@signInPage");
+        Routes::post('signin/store', "Auth\SignInController@store");
     }
 }
