@@ -4,17 +4,16 @@ namespace Manouche\HTTP\Controllers\Auth;
 
 use App\Core\HTTP\ControllersDependencies\BaseController;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Core\HTTP\Authenticate\Auth;
 use App\Core\HTTP\Authenticate\UserExistsException;
 use Manouche\HTTP\Validate\Exceptions\ValidationException;
 use Zend\Diactoros\Response\RedirectResponse;
-
+use App\Core\HTTP\Authenticate\AuthCreatorManager;
 
 class SignInController extends BaseController
 {
     /**
      * @Inject
-     * @var Auth
+     * @var AuthCreatorManager
      */
     private $auth;
 

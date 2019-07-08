@@ -34,28 +34,52 @@
         <!-- Links -->
 
         {# <form class="form-inline" method="GET" action="search">
-                            <div class="md-form my-0">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q">
-                            </div>
-                        </form> #}
-        <ul class="navbar-nav ml-auto">
-            {% set cake = auth_get('cake') %}
-            {% if cake is same as('cake') %}
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdown" role="button">
-                    Faça parte! {{cake}}
-                </a>
-                <div aria-labelledby="navbarDropdown" class="dropdown-menu">
-                    <a class="dropdown-item" href="/signin">
-                        <i class="fa fa-user" style="color: #777"></i>
-                        Login na plataforma
+                                            <div class="md-form my-0">
+                                                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q">
+                                            </div>
+                                        </form> #}
+        <ul
+            class="navbar-nav ml-auto">
+            {#% if cake is same as('cake') %#}
+            {% if auth_do('authExists') %}
+                {% set user = auth_do('getData') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Conhecer projetos</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdown" role="button">
+                        Olá,
+                        {{user.userName}}
                     </a>
-                    <a class="dropdown-item" href="#">Use o Google</a>
-                </div>
-            </li>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" href="#">
+                            <i class="fa fa-user" style="color: #777; margin-right: 5px"></i>
+                            Ir para o perfil de
+                            {{user.userName}}
+                        </a>
+                        <a class="dropdown-item" href="/logout">
+                            <i class="fa fa-sign-out-alt" style="color: #777; margin-right: 5px"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdown" role="button">
+                        Faça parte!
+                        {{cake}}
+                    </a>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" href="/signin">
+                            <i class="fa fa-user" style="color: #777"></i>
+                            Login na plataforma
+                        </a>
+                        <a class="dropdown-item" href="#">Use o Google</a>
+                    </div>
+                </li>
             {% endif %}
         </ul>
     </div>

@@ -42,6 +42,16 @@ if (!function_exists('d')) {
 function env(string $key){
     return CONFIG[$key];
 }
+
+/**
+ * returns the value stored in config file
+ *
+ * @param string $key
+ * @return mixed
+ */
+function configs(string $key){
+    return CONFIG[$key];
+}
 /**
  * provides a hashed string
  *

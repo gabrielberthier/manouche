@@ -4,6 +4,7 @@ namespace Manouche\HTTP;
 
 use App\Core\HTTP\Routes;
 use League\Route\RouteGroup;
+use Manouche\HTTP\Middlewares\AuthenticateMiddleware;
 
 trait CustomRoutes
 {
@@ -28,8 +29,10 @@ trait CustomRoutes
         //Login stuff
         Routes::get('login', "Auth\LoginController@page");
         Routes::post("login/validate", "Auth\LoginController@store");
+        Routes::get("/logout", "Auth\\LoginController@logout");
         //SignIn stuff
         Routes::get('signin', "Auth\SignInController@signInPage");
         Routes::post('signin/store', "Auth\SignInController@store");
+        
     }
 }

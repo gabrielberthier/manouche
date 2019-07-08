@@ -1,32 +1,38 @@
 <?php declare(strict_types=1);
 
-namespace Acme;
+namespace Manouche\HTTP\Middlewares;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\RedirectResponse;
+use App\Core\HTTP\Authenticate\Auth;
+use Firebase\JWT\SignatureInvalidException;
+use \UnexpectedValueException;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
+use Psr\Http\Message\ResponseInterface;
 
-class AuthMiddleware implements MiddlewareInterface
+class AuthenticateMiddleware implements MiddlewareInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler):ResponseInterface
     {
-        // determine authentication and/or authorization
-        // ...
+        
+        $cookies = $request->getCookieParams();
 
-        // if user has auth, use the request handler to continue to the next
-        // middleware and ultimately reach your route callable
-        if (7 === true) {
-            return $handler->handle($request);
+        if(isset($cookies["jazz_token"]))
+        {
+            try{
+                Auth::decode($cookies["jazz_token"]);
+            }
+            catch(ExpiredException | BeforeValidException | UnexpectedValueException | SignatureInvalidException $ex){
+                Auth::jwtDestroy();
+                return new RedirectResponse("/");
+            }
         }
-
-        // if user does not have auth, possibly return a redirect response,
-        // this will not continue to any further middleware and will never
-        // reach your route callable
-        return new RedirectResponse("/");
+        return($handler->handle($request));
     }
 }
