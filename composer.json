@@ -20,7 +20,8 @@
         "doctrine/orm": "^2",
         "hansott/psr7-cookies": "^3.0",
         "firebase/php-jwt": "^5.0",
-        "rakit/validation": "^1.1"
+        "rakit/validation": "^1.1",
+        "phpmailer/phpmailer": "^6.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.3"

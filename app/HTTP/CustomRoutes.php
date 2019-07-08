@@ -20,7 +20,7 @@ trait CustomRoutes
 
         Routes::group('/users',function (RouteGroup $rou) {
                 $rou->get('/', 'UsersController@index');
-                $rou->get('/hello/{name}', 'UsersController@hello');
+                $rou->get('/hello', 'UsersController@hello');
                 $rou->post('/save', 'UsersController@store');
             }
         );

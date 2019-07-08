@@ -1,21 +1,23 @@
-<nav class="navbar navbar-expand-lg navbar-dark primary-color">
+<nav
+    class="navbar navbar-expand-lg navbar-dark primary-color">
 
     <!-- Navbar brand -->
     <a class="navbar-brand" href="#">Navbar</a>
 
     <!-- Collapse button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#basicExampleNav" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="basicExampleNav">
+    <div
+        class="collapse navbar-collapse" id="basicExampleNav">
 
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="/">
-                        Home
+                    Home
                 </a>
             </li>
             <li class="nav-item">
@@ -32,25 +34,29 @@
         <!-- Links -->
 
         {# <form class="form-inline" method="GET" action="search">
-            <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q">
-            </div>
-        </form> #}
+                            <div class="md-form my-0">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q">
+                            </div>
+                        </form> #}
         <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-        </li>
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Faça parte!
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/signin">
-            <i class="fa fa-user" style="color: #777"></i> Login na plataforma
-            </a>
-            <a class="dropdown-item" href="#">Use o Google</a>
-        </div>
-        </li>
+            {% set cake = auth_get('cake') %}
+            {% if cake is same as('cake') %}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdown" role="button">
+                    Faça parte! {{cake}}
+                </a>
+                <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                    <a class="dropdown-item" href="/signin">
+                        <i class="fa fa-user" style="color: #777"></i>
+                        Login na plataforma
+                    </a>
+                    <a class="dropdown-item" href="#">Use o Google</a>
+                </div>
+            </li>
+            {% endif %}
         </ul>
     </div>
     <!-- Collapsible content -->

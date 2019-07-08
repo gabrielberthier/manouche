@@ -5,15 +5,18 @@ use Twig\Environment;
 use App\Core\Utilities\Dumper;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+use App\Core\ViewComponents\AuthStaticCaller;
 
 return [
     'request' => Zend\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES),
     'response' => new Response(),
     Environment::class => function () {
         $loader = new Twig_Loader_Filesystem('app/views');
-        return new Environment($loader, [
+        $twig = new Environment($loader, [
             'debug' => true,
         ]);
+        $twig->addExtension(new AuthStaticCaller());
+        return $twig;
     },
     Dumper::class => new Dumper(),
     EntityManager::class => function () {
@@ -27,3 +30,14 @@ return [
         return EntityManager::create($dbParams, $config);
     }
 ];
+/**
+ * Another option to use instead of EntityManager is
+ * Doctrine's DBAL, which provides a really cool and useful 
+ * environment to database queries. To use it, just switch EntityManager 
+ * to the class below :D
+ * QueryBuilder::class => function(){
+ *  $options = env("database");
+ *  $connection = DriveManager::getConnection($options);
+ *  return $connection->createQueryBuilder()
+ * }
+ */

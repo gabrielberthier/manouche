@@ -20,7 +20,7 @@ class AuthMiddleware implements MiddlewareInterface
 
         // if user has auth, use the request handler to continue to the next
         // middleware and ultimately reach your route callable
-        if ($auth === true) {
+        if (7 === true) {
             return $handler->handle($request);
         }
 

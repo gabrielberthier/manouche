@@ -514,6 +514,11 @@ input:focus{
   transition: opacity 0.4s;
 }
 
+.ml-auto .dropdown-menu {
+  left: auto !important;
+  right: 0px;
+}
+
 .alert-validate::after {
   content: "\f12a";
   font-family: FontAwesome;

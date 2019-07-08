@@ -4,21 +4,26 @@ namespace Manouche\HTTP\Controllers\Auth;
 
 use App\Core\HTTP\ControllersDependencies\BaseController;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Core\HTTP\Validate\ManoucheValidator as Validator;
-use Manouche\HTTP\Validate\SigninValidation;
-use Manouche\Models\UserModel;
-use Exception;
 use App\Core\HTTP\Authenticate\Auth;
+use App\Core\HTTP\Authenticate\UserExistsException;
+use Manouche\HTTP\Validate\Exceptions\ValidationException;
+use Zend\Diactoros\Response\RedirectResponse;
+
 
 class SignInController extends BaseController
 {
     /**
      * @Inject
-     * @var UserModel
+     * @var Auth
      */
-    private $user;
+    private $auth;
 
     public function signInPage(ServerRequestInterface $request, $args)
+    {
+        return $this->render('signin/signin');
+    }
+
+    public function error(ServerRequestInterface $request, $args)
     {
         return $this->render('signin/signin');
     }
@@ -26,31 +31,30 @@ class SignInController extends BaseController
     public function store(ServerRequestInterface $request, $args)
     {
         $values = $request->getParsedBody();
-        $validator = new Validator();
-        if ($validator->validate(
-            $values,
-            (new SigninValidation)
-        )) {
-            $user = $this->user;
-            $user->setUsername($values['username']);
-            $user->setEmail($values['email']);
-            if ($user->exists()) {
-                throw new Exception("Este usuário já existe"); die;
+        try 
+        {
+            if($this->auth->make($values)){
+                return new RedirectResponse("/users/hello", 301);
             }
-            $user->setPassword($values['password']);
-            $createdAt = new \DateTime('now', new \DateTimeZone('America/Sao_Paulo'));
-            $updatedAt = new \DateTime('now', new \DateTimeZone('America/Sao_Paulo'));
-            $user->setCreatedAt($createdAt);
-            $user->setUpdatedAt($updatedAt);
-            (new Auth)->createAuth([
-                'name' => $user->getUsername(),
-                'id' => 1,
-                'role' => 'common'
-            ]);
-        } else {
+            else {
+                $this->getResponse()->getBody()->write(
+                    "<h1>Cookie impossível de ser criado</h1>"
+                );
+                return $this->getResponse();
+            }
+        } 
+        catch (UserExistsException $userExistsException) 
+        {
             return $this->render(
                 'signin/errors',
-                ['errors' => $validator->getErrors()->toArray()]
+                ['errors' => ["Usuário já existente " => $userExistsException->getMessage()]]
+            );
+        } 
+        catch (ValidationException $vldEx) 
+        {
+            return $this->render(
+                'signin/errors',
+                $vldEx->getErrors()
             );
         }
     }

@@ -2,11 +2,19 @@
 
 namespace Manouche\Models;
 
+use Doctrine\ORM\NonUniqueResultException;
+
 /**
  * @Entity @Table(name="users")
  **/
 class UserModel extends AbstractModel
 {
+    /**
+     * Table of current instance
+     *
+     * @var string
+     */
+    protected $tableName = "users";
     /** @Id @Column(type="integer", name="idusers") @GeneratedValue **/
     private $idusers;
     /** @Column(type="string", name="username") **/
@@ -19,8 +27,8 @@ class UserModel extends AbstractModel
     private $createdAt;
     /** @Column(type="datetime", name="updatedAt") **/
     private $updatedAt;
-    /** @Column(type="string", name="roles") **/
-    private $roles;
+    /** @Column(type="string", name="roles", options={"default":"common"} ) **/
+    private $roles = "common";
 
 
     /**
@@ -58,7 +66,7 @@ class UserModel extends AbstractModel
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = manoucheHash($password);
 
         return $this;
     }
@@ -116,7 +124,7 @@ class UserModel extends AbstractModel
      *
      * @return  self
      */
-    public function setRoles($roles)
+    public function setRoles(string $roles)
     {
         $this->roles = $roles;
 
@@ -129,13 +137,18 @@ class UserModel extends AbstractModel
      */
     public function exists()
     {
-        $user = $this->database->getRepository(static::class)->createQueryBuilder('u')
+        try{
+            $user = $this->database->getRepository(static::class)->createQueryBuilder('u')
             ->andWhere('u.email = :email OR u.username = :name')
             ->setParameter('email', $this->email)
             ->setParameter('name', $this->username)
             ->getQuery()
             ->getOneOrNullResult();
-        return ($user !== null);
+            return ($user !== null);
+        }
+        catch(NonUniqueResultException $ex){
+            return true;
+        }
     }
 
     /**

@@ -6,7 +6,6 @@ use Manouche\Models\UserModel;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Core\HTTP\ControllersDependencies\BaseController;
 use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Diactoros\Response;
 
 class UsersController extends BaseController
 {
@@ -58,8 +57,11 @@ class UsersController extends BaseController
     }
 
     public function hello(ServerRequestInterface $request, $args){
-        $name = $args['name'];
-        $this->getResponse()->getBody()->write("<h3>Hello, $name</h3>");
+        // $name = $args['name'];
+        // $this->getResponse()->getBody()->write("<h3>Hello, $name</h3>");
+        $cookies = $_COOKIE;
+        $cookies = implode(", ", $cookies);
+        $this->getResponse()->getBody()->write("<h3>Hello, $cookies</h3>");
         return $this->getResponse();
     }
 }

@@ -44,7 +44,7 @@ class PagesController extends BaseController
     {   
 
         $search = $request->getCookieParams();
-        $cookie = SetCookie::thatStaysForever('milla', 'kunis');
+        $cookie = SetCookie::thatStaysForever('nina', 'show');
         $this->setResponse($cookie->addToResponse($this->getResponse()));
         return $this->render('search', compact('search'));
     }

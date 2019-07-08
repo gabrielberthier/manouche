@@ -12,10 +12,7 @@ class Container
      * 
      */
     public function make(string $class, array $params = []): object
-    {
-        $reflectedClass = new \ReflectionClass($class);
-        $constructor = $reflectedClass->getConstructor();
-        
+    {   
         $reflection = new \ReflectionClass($class);
         
         $constructor = $reflection->getConstructor();

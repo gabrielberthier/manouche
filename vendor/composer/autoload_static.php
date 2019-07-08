@@ -66,6 +66,7 @@ class ComposerStaticInitdbfd87da8f8f23f9822b2b5bcfeab1f1
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
             'PhpDocReader\\' => 13,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -193,6 +194,10 @@ class ComposerStaticInitdbfd87da8f8f23f9822b2b5bcfeab1f1
         'PhpDocReader\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Manouche\\' => 
         array (
