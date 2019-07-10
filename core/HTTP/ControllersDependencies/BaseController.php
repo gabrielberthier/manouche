@@ -5,10 +5,13 @@ namespace App\Core\HTTP\ControllersDependencies;
 use Psr\Http\Message\ResponseInterface;
 use Twig\Environment;
 use Zend\Diactoros\Response;
+use App\Core\HTTP\Validate\ManoucheValidator as Validator;
+use App\Core\HTTP\Validate\ValidateInterface;
+use Manouche\HTTP\Validate\Exceptions\ValidationException;
 
-class BaseController 
+class BaseController
 {
-     /**
+    /**
      * @Inject
      * @var Environment
      */
@@ -19,8 +22,15 @@ class BaseController
      */
     private $response;
 
+    /**
+     * Validates entries
+     * @Inject
+     * @var Validator
+     */
+    private $validator;
 
-    public function render(string $view, $args = []) : ResponseInterface
+
+    protected function render(string $view, $args = []): ResponseInterface
     {
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->response->getBody()->write(
@@ -29,11 +39,32 @@ class BaseController
         return $this->response;
     }
 
-    public function getResponse(){
+    protected function getResponse()
+    {
         return $this->response;
     }
 
-    public function setResponse(ResponseInterface $response){
+    protected function setResponse(ResponseInterface $response)
+    {
         $this->response = $response;
+    }
+
+    /**
+     * Validates user entries
+     *
+     * @param array $data
+     * @param ValidateInterface $rule
+     * @return $this
+     */
+    protected function verify(array $data, ValidateInterface $rule)
+    {
+        if ($this->validator->validate($data, $rule)) 
+        {
+            return $this;
+        }
+        throw new ValidationException(
+            "Os campos requeridos não foram preenchidos corretamente",
+            ['errors' => $this->validator->getErrors()->toArray()]
+        );
     }
 }

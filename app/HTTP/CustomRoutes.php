@@ -18,7 +18,7 @@ trait CustomRoutes
         Routes::get('/createCookie', "PagesController@createCookie");
 
         Routes::get('about/{company}', "PagesController@about");
-
+        
         Routes::group('/users',function (RouteGroup $rou) {
                 $rou->get('/', 'UsersController@index');
                 $rou->get('/hello', 'UsersController@hello');
@@ -28,7 +28,7 @@ trait CustomRoutes
         Routes::get('session', "PagesController@printSession");
         //Login stuff
         Routes::get('login', "Auth\LoginController@page");
-        Routes::post("login/validate", "Auth\LoginController@store");
+        Routes::post("login/getin", "Auth\LoginController@login");
         Routes::get("/logout", "Auth\\LoginController@logout");
         //SignIn stuff
         Routes::get('signin', "Auth\SignInController@signInPage");

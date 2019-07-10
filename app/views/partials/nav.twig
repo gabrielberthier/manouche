@@ -2,7 +2,7 @@
     class="navbar navbar-expand-lg navbar-dark primary-color">
 
     <!-- Navbar brand -->
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Tessellate</a>
 
     <!-- Collapse button -->
     <button aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#basicExampleNav" data-toggle="collapse" type="button">
@@ -34,10 +34,10 @@
         <!-- Links -->
 
         {# <form class="form-inline" method="GET" action="search">
-                                            <div class="md-form my-0">
-                                                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q">
-                                            </div>
-                                        </form> #}
+                                                    <div class="md-form my-0">
+                                                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q">
+                                                    </div>
+                                                </form> #}
         <ul
             class="navbar-nav ml-auto">
             {#% if cake is same as('cake') %#}
@@ -65,6 +65,9 @@
                 </li>
             {% else %}
                 <li class="nav-item">
+                    <a class="nav-link" href="/login/ongs">Para ONGs</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/login">Login</a>
                 </li>
                 <li class="nav-item dropdown">
@@ -75,7 +78,7 @@
                     <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <a class="dropdown-item" href="/signin">
                             <i class="fa fa-user" style="color: #777"></i>
-                            Login na plataforma
+                            Entrar na plataforma
                         </a>
                         <a class="dropdown-item" href="#">Use o Google</a>
                     </div>

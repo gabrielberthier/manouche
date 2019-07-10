@@ -6,8 +6,6 @@ use App\Core\HTTP\RouterFactory\RouterFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Http\Exception\MethodNotAllowedException;
 use League\Route\Http\Exception\NotFoundException;
-use Doctrine\ORM\EntityManager;
-use Manouche\Models\UserModel;
 
 //use App\Core\App;
 

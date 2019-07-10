@@ -3,6 +3,7 @@
 namespace Manouche\Models;
 
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @Entity @Table(name="users")
@@ -30,6 +31,16 @@ class UserModel extends AbstractModel
     /** @Column(type="string", name="roles", options={"default":"common"} ) **/
     private $roles = "common";
 
+    /**
+     * Annotation combined with phpdoc:
+     *
+     * @Inject
+     * @param EntityManager $entity
+     */
+    public function __construct(EntityManager $entity)
+    {
+        parent::__construct($entity);
+    }
 
     /**
      * Get the value of email

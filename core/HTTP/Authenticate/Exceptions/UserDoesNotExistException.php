@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Core\HTTP\Authenticate;
+namespace App\Core\HTTP\Authenticate\Exceptions;
 
 use Exception;
 
-class UserExistsException extends Exception
+class UserDoesNotExistException extends Exception
 {
     public function __construct($message, $code = 0, Exception $previous = null) {
         parent::__construct($message, $code, $previous);

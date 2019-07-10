@@ -13,6 +13,14 @@ abstract class AbstractModel
     protected $database;
 
     /**
+     * @Inject
+     * @param EntityManager $database
+     */
+    public function __construct(EntityManager $database) {
+        $this->database = $database;
+    }
+
+    /**
      * This variable defines the table we want to query
      *
      * @var string

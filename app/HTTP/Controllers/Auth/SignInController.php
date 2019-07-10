@@ -4,10 +4,11 @@ namespace Manouche\HTTP\Controllers\Auth;
 
 use App\Core\HTTP\ControllersDependencies\BaseController;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Core\HTTP\Authenticate\UserExistsException;
+use App\Core\HTTP\Authenticate\Exceptions\UserExistsException;
 use Manouche\HTTP\Validate\Exceptions\ValidationException;
 use Zend\Diactoros\Response\RedirectResponse;
 use App\Core\HTTP\Authenticate\AuthCreatorManager;
+use Manouche\HTTP\Validate\SigninValidation;
 
 class SignInController extends BaseController
 {
@@ -32,10 +33,16 @@ class SignInController extends BaseController
         $values = $request->getParsedBody();
         try 
         {
-            if($this->auth->make($values)){
+            if
+            (
+                $this->verify($values, (new SigninValidation))
+                ->auth->make($values)
+            )
+            {
                 return new RedirectResponse("/users/hello", 301);
             }
-            else {
+            else 
+            {
                 $this->getResponse()->getBody()->write(
                     "<h1>Cookie impossível de ser criado</h1>"
                 );
