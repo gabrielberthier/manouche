@@ -7,7 +7,6 @@ use FastRoute\Dispatcher\GroupCountBased as GroupCountBasedDispatcher;
 use League\Route\Http\Exception\{MethodNotAllowedException, NotFoundException};
 use League\Route\Middleware\{MiddlewareAwareInterface, MiddlewareAwareTrait};
 use League\Route\Strategy\{StrategyAwareInterface, StrategyAwareTrait};
-use OutOfBoundsException;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
 
@@ -22,13 +21,15 @@ class Dispatcher extends GroupCountBasedDispatcher implements
     /**
      * Dispatch the current route
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param ServerRequestInterface $request
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function dispatchRequest(ServerRequestInterface $request) : ResponseInterface
+    public function dispatchRequest(ServerRequestInterface $request): ResponseInterface
     {
-        $match = $this->dispatch($request->getMethod(), $request->getUri()->getPath());
+        $httpMethod = $request->getMethod();
+        $uri        = $request->getUri()->getPath();
+        $match      = $this->dispatch($httpMethod, $uri);
 
         switch ($match[0]) {
             case FastRoute::NOT_FOUND:
@@ -39,8 +40,8 @@ class Dispatcher extends GroupCountBasedDispatcher implements
                 $this->setMethodNotAllowedDecoratorMiddleware($allowed);
                 break;
             case FastRoute::FOUND:
-                $match[1]->setVars($match[2]);
-                $this->setFoundMiddleware($match[1]);
+                $route = $this->ensureHandlerIsRoute($match[1], $httpMethod, $uri)->setVars($match[2]);
+                $this->setFoundMiddleware($route);
                 break;
         }
 
@@ -48,15 +49,29 @@ class Dispatcher extends GroupCountBasedDispatcher implements
     }
 
     /**
+     * Ensure handler is a Route, honoring the contract of dispatchRequest.
+     *
+     * @param Route|mixed $matchingHandler
+     * @param string      $httpMethod
+     * @param string      $uri
+     *
+     * @return Route
+     *
+     */
+    private function ensureHandlerIsRoute($matchingHandler, $httpMethod, $uri): Route
+    {
+        if (is_a($matchingHandler, Route::class)) {
+            return $matchingHandler;
+        }
+        return new Route($httpMethod, $uri, $matchingHandler);
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->shiftMiddleware();
-
-        if (is_null($middleware)) {
-            throw new OutOfBoundsException('Reached end of middleware stack. Does your controller return a response?');
-        }
 
         return $middleware->process($request, $this);
     }
@@ -64,25 +79,36 @@ class Dispatcher extends GroupCountBasedDispatcher implements
     /**
      * Set up middleware for a found route
      *
-     * @param \League\Route\Route $route
+     * @param Route $route
      *
      * @return void
      */
-    protected function setFoundMiddleware(Route $route) : void
+    protected function setFoundMiddleware(Route $route): void
     {
-        if (is_null($route->getStrategy())) {
+        if ($route->getStrategy() === null) {
             $route->setStrategy($this->getStrategy());
         }
 
+        $strategy   = $route->getStrategy();
+        $container = $strategy instanceof ContainerAwareInterface ? $strategy->getContainer() : null;
+
+        foreach ($this->getMiddlewareStack() as $key => $middleware) {
+            $this->middleware[$key] = $this->resolveMiddleware($middleware, $container);
+        }
+
         // wrap entire dispatch process in exception handler
-        $this->prependMiddleware($route->getStrategy()->getExceptionHandler());
+        $this->prependMiddleware($strategy->getExceptionHandler());
 
         // add group and route specific middleware
         if ($group = $route->getParentGroup()) {
-            $this->middlewares($group->getMiddlewareStack());
+            foreach ($group->getMiddlewareStack() as $middleware) {
+                $this->middleware($this->resolveMiddleware($middleware, $container));
+            }
         }
 
-        $this->middlewares($route->getMiddlewareStack());
+        foreach ($route->getMiddlewareStack() as $middleware) {
+            $this->middleware($this->resolveMiddleware($middleware, $container));
+        }
 
         // add actual route to end of stack
         $this->middleware($route);
@@ -93,7 +119,7 @@ class Dispatcher extends GroupCountBasedDispatcher implements
      *
      * @return void
      */
-    protected function setNotFoundDecoratorMiddleware() : void
+    protected function setNotFoundDecoratorMiddleware(): void
     {
         $middleware = $this->getStrategy()->getNotFoundDecorator(new NotFoundException);
         $this->prependMiddleware($middleware);
@@ -106,7 +132,7 @@ class Dispatcher extends GroupCountBasedDispatcher implements
      *
      * @return void
      */
-    protected function setMethodNotAllowedDecoratorMiddleware(array $allowed) : void
+    protected function setMethodNotAllowedDecoratorMiddleware(array $allowed): void
     {
         $middleware = $this->getStrategy()->getMethodNotAllowedDecorator(
             new MethodNotAllowedException($allowed)

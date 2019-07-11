@@ -5,17 +5,16 @@ namespace Manouche\HTTP\Controllers\Auth;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Core\HTTP\ControllersDependencies\BaseController;
 use Zend\Diactoros\Response\RedirectResponse;
-use HansOtt\PSR7Cookies\SetCookie;
-use App\Core\HTTP\Authenticate\AuthCreatorManager;
 use Manouche\HTTP\Validate\LoginValidation;
 use Manouche\HTTP\Validate\Exceptions\ValidationException;
 use App\Core\HTTP\Authenticate\Exceptions\UserDoesNotExistException;
+use App\Core\HTTP\Authenticate\Auth;
 
 class LoginController extends BaseController
 {
     /**
      * @Inject
-     * @var AuthCreatorManager
+     * @var Auth
      */
     private $authie;
     
@@ -69,9 +68,10 @@ class LoginController extends BaseController
 
     public function logout(ServerRequestInterface $request, $args)
     {
-        $cookie = SetCookie::thatDeletesCookie('jazz_token');
-        $redirectResponse = new RedirectResponse("/", 302);
-        $response = $cookie->addToResponse($redirectResponse);
-        return $response;
+        Auth::jwtDestroy();
+        // $redirectResponse = new RedirectResponse("/", 302);
+        // $response = $cookie->addToResponse($redirectResponse);
+        // return $response;
+        return new RedirectResponse("/", 302);
     }
 }

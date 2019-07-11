@@ -7,14 +7,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use App\Core\HTTP\Authenticate\Exceptions\UserExistsException;
 use Manouche\HTTP\Validate\Exceptions\ValidationException;
 use Zend\Diactoros\Response\RedirectResponse;
-use App\Core\HTTP\Authenticate\AuthCreatorManager;
 use Manouche\HTTP\Validate\SigninValidation;
+use App\Core\HTTP\Authenticate\Auth;
 
 class SignInController extends BaseController
 {
     /**
      * @Inject
-     * @var AuthCreatorManager
+     * @var Auth
      */
     private $auth;
 

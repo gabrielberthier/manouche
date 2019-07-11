@@ -4,7 +4,6 @@ namespace League\Route;
 
 use League\Route\Middleware\{MiddlewareAwareInterface, MiddlewareAwareTrait};
 use League\Route\Strategy\{StrategyAwareInterface, StrategyAwareTrait};
-use App\Core\HTTP\ControllerMakerTrait;
 
 class RouteGroup implements
     MiddlewareAwareInterface,
@@ -16,7 +15,6 @@ class RouteGroup implements
     use RouteCollectionTrait;
     use RouteConditionHandlerTrait;
     use StrategyAwareTrait;
-    use ControllerMakerTrait;
 
     /**
      * @var callable
@@ -24,7 +22,7 @@ class RouteGroup implements
     protected $callback;
 
     /**
-     * @var \League\Route\RouteCollectionInterface
+     * @var RouteCollectionInterface
      */
     protected $collection;
 
@@ -36,9 +34,9 @@ class RouteGroup implements
     /**
      * Constructor
      *
-     * @param string                                 $prefix
-     * @param callable                               $callback
-     * @param \League\Route\RouteCollectionInterface $collection
+     * @param string                   $prefix
+     * @param callable                 $callback
+     * @param RouteCollectionInterface $collection
      */
     public function __construct(string $prefix, callable $callback, RouteCollectionInterface $collection)
     {
@@ -52,7 +50,7 @@ class RouteGroup implements
      *
      * @return string
      */
-    public function getPrefix() : string
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
@@ -62,7 +60,7 @@ class RouteGroup implements
      *
      * @return void
      */
-    public function __invoke() : void
+    public function __invoke(): void
     {
         ($this->callback)($this);
     }
@@ -70,13 +68,13 @@ class RouteGroup implements
     /**
      * {@inheritdoc}
      */
-    public function map(string $method, string $path, $handler) : Route
+    public function map(string $method, string $path, $handler): Route
     {
-        $path  = ($path === '/') ? $this->prefix : $this->prefix . sprintf('/%s', ltrim($path, '/'));
-        if(is_string($handler)) 
-        {
-            $handler = $this->transformsController($handler);
+        if(is_string($handler)){
+            list($controller, $action) = explode('@', $handler);
+            $handler = "Manouche\\HTTP\\Controllers\\{$controller}::{$action}";
         }
+        $path  = ($path === '/') ? $this->prefix : $this->prefix . sprintf('/%s', ltrim($path, '/'));
         $route = $this->collection->map($method, $path, $handler);
 
         $route->setParentGroup($this);
@@ -93,20 +91,10 @@ class RouteGroup implements
             $route->setPort($port);
         }
 
-        if (is_null($route->getStrategy()) && ! is_null($this->getStrategy())) {
+        if ($route->getStrategy() === null && $this->getStrategy() !== null) {
             $route->setStrategy($this->getStrategy());
         }
 
         return $route;
     }
-
-    // public function get(string $path, $handler): Route
-    // {
-    //     return $this->map("GET", $path, $handler);
-    // }
-
-    // public function post(string $path, $handler): Route
-    // {
-    //     return $this->map("POST", $path, $handler);
-    // }
 }

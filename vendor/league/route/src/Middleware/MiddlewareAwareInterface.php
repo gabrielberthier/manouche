@@ -9,41 +9,41 @@ interface MiddlewareAwareInterface
     /**
      * Add a middleware to the stack
      *
-     * @param \Psr\Http\Server\MiddlewareInterface $middleware
+     * @param MiddlewareInterface $middleware
      *
      * @return static
      */
-    public function middleware(MiddlewareInterface $middleware) : MiddlewareAwareInterface;
+    public function middleware(MiddlewareInterface $middleware): MiddlewareAwareInterface;
 
     /**
      * Add multiple middleware to the stack
      *
-     * @param \Psr\Http\Server\MiddlewareInterface[] $middlewares
+     * @param MiddlewareInterface[] $middlewares
      *
      * @return static
      */
-    public function middlewares(array $middlewares) : MiddlewareAwareInterface;
+    public function middlewares(array $middlewares): MiddlewareAwareInterface;
 
     /**
      * Prepend a middleware to the stack
      *
-     * @param \Psr\Http\Server\MiddlewareInterface $middleware
+     * @param MiddlewareInterface $middleware
      *
      * @return static
      */
-    public function prependMiddleware(MiddlewareInterface $middleware) : MiddlewareAwareInterface;
+    public function prependMiddleware(MiddlewareInterface $middleware): MiddlewareAwareInterface;
 
     /**
      * Shift a middleware from beginning of stack
      *
-     * @return \Psr\Http\Server\MiddlewareInterface|null
+     * @return MiddlewareInterface|null
      */
-    public function shiftMiddleware() : MiddlewareInterface;
+    public function shiftMiddleware(): MiddlewareInterface;
 
     /**
      * Get the stack of middleware
      *
-     * @return \Psr\Http\Server\MiddlewareInterface[]
+     * @return MiddlewareInterface[]
      */
-    public function getMiddlewareStack() : iterable;
+    public function getMiddlewareStack(): iterable;
 }

@@ -39,6 +39,11 @@ abstract class AbstractModel
         return $this->database->getRepository(static::class)->findAll();
     }
 
+    public function find(int $id)
+    {
+        return $this->database->getRepository(static::class)->find($id);
+    }
+
     public function save()
     {
         try {

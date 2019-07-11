@@ -4,7 +4,6 @@ namespace Manouche\HTTP;
 
 use App\Core\HTTP\Routes;
 use League\Route\RouteGroup;
-use Manouche\HTTP\Middlewares\AuthenticateMiddleware;
 
 trait CustomRoutes
 {

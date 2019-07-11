@@ -2,43 +2,30 @@
 
 namespace App\Core\HTTP\Authenticate;
 
-use App\Core\HTTP\JWTrait\JWTraitMaker;
+
 use Manouche\Models\UserModel;
-use App\Core\Utilities\Container;
 
 class Auth
 {
-
-    use JWTraitMaker;
+    use AuthSignInTrait, AuthLoginTrait, JWTDealerTrait, AuthStaticElements;
     /**
-     * Who owns the token
-     * @var object|null
+     * @Inject
+     * @var UserModel
      */
-    private static $payload = null;
+    private $user;
 
-
-    /**
-     * returns true if jwt exists and
-     * is corret
-     *
-     * @return void
-     */
-    public static function authExists(){
-        return isset($_COOKIE['jazz_token']);
-    }    
-
-    public static function getPayload(){
-        return self::$payload;
+    public function getUser()
+    {
+        return $this->user->find(self::getData()->id);
     }
 
-    public static function getData(){
-        return self::$payload->data;
+    private function userToSessionArray(UserModel $user){
+        return [
+            'name' => $user->getUsername(),
+            'id' => $user->getIdusers(),
+            'role' => $user->getRoles(),
+            'email' => $user->getEmail()
+        ];
     }
-
-
-    public static function getUser(){
-        $container = new Container();
-        $container->make(UserModel::class);
-    }   
 
 }

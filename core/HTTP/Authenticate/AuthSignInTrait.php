@@ -17,12 +17,7 @@ trait AuthSignInTrait
     {
         $this->userMaker($values);
         $user = $this->user->findOneBy("email", $this->user->getEmail());
-        $jwtRaw = [
-            'name' => $user->getUsername(),
-            'id' => $user->getIdusers(),
-            'role' => $user->getRoles(),
-            'email' => $user->getEmail()
-        ];
+        $jwtRaw = $this->userToSessionArray($user);
         $jwt = $this->encode($jwtRaw);
         return setcookie("jazz_token", $jwt, time() + 31536000, '/', "", false, true);
     }

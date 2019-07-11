@@ -5,14 +5,14 @@ namespace League\Route\Strategy;
 trait StrategyAwareTrait
 {
     /**
-     * @var \League\Route\Strategy\StrategyInterface
+     * @var StrategyInterface
      */
     protected $strategy;
 
     /**
      * {@inheritdoc}
      */
-    public function setStrategy(StrategyInterface $strategy) : StrategyAwareInterface
+    public function setStrategy(StrategyInterface $strategy): StrategyAwareInterface
     {
         $this->strategy = $strategy;
 
@@ -22,7 +22,7 @@ trait StrategyAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function getStrategy() : ?StrategyInterface
+    public function getStrategy(): ?StrategyInterface
     {
         return $this->strategy;
     }

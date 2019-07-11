@@ -11,9 +11,9 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
-    public function map(string $method, string $path, $handler) : Route;
+    public function map(string $method, string $path, $handler): Route;
 
     /**
      * Add a route that responds to GET HTTP method
@@ -21,7 +21,7 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
     public function get($path, $handler);
 
@@ -31,7 +31,7 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
     public function post($path, $handler);
 
@@ -41,7 +41,7 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
     public function put($path, $handler);
 
@@ -51,7 +51,7 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
     public function patch($path, $handler);
 
@@ -61,7 +61,7 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
     public function delete($path, $handler);
 
@@ -71,7 +71,7 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
     public function head($path, $handler);
 
@@ -81,7 +81,7 @@ interface RouteCollectionInterface
      * @param string          $path
      * @param callable|string $handler
      *
-     * @return \League\Route\Route
+     * @return Route
      */
     public function options($path, $handler);
 }

@@ -7,14 +7,14 @@ use Psr\Container\ContainerInterface;
 trait ContainerAwareTrait
 {
     /**
-     * @var \Psr\Container\ContainerInterface|null
+     * @var ContainerInterface|null
      */
     protected $container;
 
     /**
      * {@inheritdoc}
      */
-    public function getContainer() : ?ContainerInterface
+    public function getContainer(): ?ContainerInterface
     {
         return $this->container;
     }
@@ -22,7 +22,7 @@ trait ContainerAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container) : ContainerAwareInterface
+    public function setContainer(ContainerInterface $container): ContainerAwareInterface
     {
         $this->container = $container;
 

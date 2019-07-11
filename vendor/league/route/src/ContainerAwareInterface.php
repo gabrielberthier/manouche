@@ -9,16 +9,16 @@ interface ContainerAwareInterface
     /**
      * Get the current container
      *
-     * @return \Psr\Container\ContainerInterface|null
+     * @return ContainerInterface|null
      */
-    public function getContainer() : ?ContainerInterface;
+    public function getContainer(): ?ContainerInterface;
 
     /**
      * Set the container implementation
      *
-     * @param \Psr\Container\ContainerInterface $container
+     * @param ContainerInterface $container
      *
      * @return static
      */
-    public function setContainer(ContainerInterface $container) : ContainerAwareInterface;
+    public function setContainer(ContainerInterface $container): ContainerAwareInterface;
 }

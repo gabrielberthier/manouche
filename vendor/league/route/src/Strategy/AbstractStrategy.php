@@ -14,7 +14,7 @@ abstract class AbstractStrategy implements StrategyInterface
      *
      * @return array
      */
-    public function getDefaultResponseHeaders() : array
+    public function getDefaultResponseHeaders(): array
     {
         return $this->defaultResponseHeaders;
     }
@@ -27,7 +27,7 @@ abstract class AbstractStrategy implements StrategyInterface
      *
      * @return static
      */
-    public function addDefaultResponseHeader(string $name, string $value) : AbstractStrategy
+    public function addDefaultResponseHeader(string $name, string $value): AbstractStrategy
     {
         $this->defaultResponseHeaders[strtolower($name)] = $value;
 
@@ -41,7 +41,7 @@ abstract class AbstractStrategy implements StrategyInterface
      *
      * @return static
      */
-    public function addDefaultResponseHeaders(array $headers) : AbstractStrategy
+    public function addDefaultResponseHeaders(array $headers): AbstractStrategy
     {
         foreach ($headers as $name => $value) {
             $this->addDefaultResponseHeader($name, $value);
@@ -55,14 +55,14 @@ abstract class AbstractStrategy implements StrategyInterface
      *
      * Headers that already exist on the response will NOT be replaced.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    protected function applyDefaultResponseHeaders(ResponseInterface $response) : ResponseInterface
+    protected function applyDefaultResponseHeaders(ResponseInterface $response): ResponseInterface
     {
         foreach ($this->defaultResponseHeaders as $name => $value) {
-            if (! $response->hasHeader($name)) {
+            if (false === $response->hasHeader($name)) {
                 $response = $response->withHeader($name, $value);
             }
         }

@@ -32,12 +32,7 @@ trait AuthLoginTrait
         $user = $this->hasUser($params['user']);
         if (isset($user)) {
             if (manoucheCheck($params['password'], $user->getPassword()) === true) {
-                $jwtRaw = [
-                    'name' => $user->getUsername(),
-                    'id' => $user->getIdusers(),
-                    'role' => $user->getRoles(),
-                    'email' => $user->getEmail()
-                ];
+                $jwtRaw = $this->userToSessionArray($user);
                 $jwt = $this->encode($jwtRaw);
                 return setcookie("jazz_token", $jwt, time() + 31536000, '/', "", false, true);
             }

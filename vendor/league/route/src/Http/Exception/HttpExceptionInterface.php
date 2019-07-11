@@ -11,21 +11,21 @@ interface HttpExceptionInterface
      *
      * @return integer
      */
-    public function getStatusCode() : int;
+    public function getStatusCode(): int;
 
     /**
      * Return an array of headers provided when the exception was thrown
      *
      * @return array
      */
-    public function getHeaders() : array;
+    public function getHeaders(): array;
 
     /**
      * Accepts a response object and builds it in to a json representation of the exception.
      *
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function buildJsonResponse(ResponseInterface $response) : ResponseInterface;
+    public function buildJsonResponse(ResponseInterface $response): ResponseInterface;
 }

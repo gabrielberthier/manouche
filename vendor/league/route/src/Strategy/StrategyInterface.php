@@ -13,30 +13,30 @@ interface StrategyInterface
     /**
      * Invoke the route callable based on the strategy
      *
-     * @param \League\Route\Route                      $route
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param Route                  $route
+     * @param ServerRequestInterface $request
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function invokeRouteCallable(Route $route, ServerRequestInterface $request) : ResponseInterface;
+    public function invokeRouteCallable(Route $route, ServerRequestInterface $request): ResponseInterface;
 
     /**
      * Get a middleware that will decorate a NotFoundException
      *
-     * @param \League\Route\Http\Exception\NotFoundException $exception
+     * @param NotFoundException $exception
      *
-     * @return \Psr\Http\Server\MiddlewareInterface
+     * @return MiddlewareInterface
      */
-    public function getNotFoundDecorator(NotFoundException $exception) : MiddlewareInterface;
+    public function getNotFoundDecorator(NotFoundException $exception): MiddlewareInterface;
 
     /**
      * Get a middleware that will decorate a NotAllowedException
      *
-     * @param \League\Route\Http\Exception\MethodNotAllowedException $exception
+     * @param MethodNotAllowedException $exception
      *
-     * @return \Psr\Http\Server\MiddlewareInterface
+     * @return MiddlewareInterface
      */
-    public function getMethodNotAllowedDecorator(MethodNotAllowedException $exception) : MiddlewareInterface;
+    public function getMethodNotAllowedDecorator(MethodNotAllowedException $exception): MiddlewareInterface;
 
     /**
      * Get a middleware that will act as an exception handler
@@ -44,15 +44,15 @@ interface StrategyInterface
      * The middleware must wrap the rest of the middleware stack and catch any
      * thrown exceptions.
      *
-     * @return \Psr\Http\Server\MiddlewareInterface
+     * @return MiddlewareInterface
      */
-    public function getExceptionHandler() : MiddlewareInterface;
+    public function getExceptionHandler(): MiddlewareInterface;
 
     /**
      * Get a middleware that acts as a throwable handler, it should wrap the rest of the
      * middleware stack and catch any throwables.
      *
-     * @return \Psr\Http\Server\MiddlewareInterface
+     * @return MiddlewareInterface
      */
-    public function getThrowableHandler() : MiddlewareInterface;
+    public function getThrowableHandler(): MiddlewareInterface;
 }
