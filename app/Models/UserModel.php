@@ -30,6 +30,11 @@ class UserModel extends AbstractModel
     private $updatedAt;
     /** @Column(type="string", name="roles", options={"default":"common"} ) **/
     private $roles = "common";
+    /**
+     * One to one with regular
+     * @OneToOne(targetEntity="Regular", mappedBy="user")
+     */
+    private $regular;
 
     /**
      * Annotation combined with phpdoc:
@@ -198,6 +203,26 @@ class UserModel extends AbstractModel
     public function setUsername($username)
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get one to one with regular
+     */ 
+    public function getRegular()
+    {
+        return $this->regular;
+    }
+
+    /**
+     * Set one to one with regular
+     *
+     * @return  self
+     */ 
+    public function setRegular($regular)
+    {
+        $this->regular = $regular;
 
         return $this;
     }

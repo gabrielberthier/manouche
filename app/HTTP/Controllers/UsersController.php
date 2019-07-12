@@ -22,7 +22,7 @@ class UsersController extends BaseController
     public function index(ServerRequestInterface $request, $args)
     {
         $users = $this->user->getAll();
-
+        dd($users[0]);
         return $this->render('users', compact('users'));
     }
 

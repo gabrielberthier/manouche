@@ -6,6 +6,7 @@ use App\Core\Utilities\Dumper;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use App\Core\ViewComponents\AuthStaticCaller;
+use Twig\TwigFunction;
 
 return [
     'request' => Zend\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES),
@@ -16,6 +17,10 @@ return [
             'debug' => true,
         ]);
         $twig->addExtension(new AuthStaticCaller());
+        $twig->addFunction(new TwigFunction('asset', function ($asset) {
+            // implement whatever logic you need to determine the asset path
+            return sprintf('/assets/%s', ltrim($asset, '/'));
+        }));
         return $twig;
     },
     Dumper::class => new Dumper(),
