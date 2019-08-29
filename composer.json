@@ -1,6 +1,6 @@
 {
     "name": "gabs/manouche-framework",
-    "description": "My composer json",
+    "description": "A micro framework to web jazzists",
     "autoload": {
         "psr-4": {
             "Manouche\\" : "app",
